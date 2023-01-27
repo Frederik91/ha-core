@@ -25,7 +25,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
         hass.config_entries.flow.async_init(
             DOMAIN,
             context={"source": config_entries.SOURCE_IMPORT},
-            data=config[DOMAIN],
+            data=config[DATA_HASS_CONFIG],
         )
     )
 
@@ -35,12 +35,17 @@ async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up Norwegian Electricity Prices from a config entry."""
 
-    client = ApiClient(entry.data["currency"], entry.data["area_code"])
-    hass.data[DOMAIN][entry.entry_id] = client
+    client = ApiClient(entry.options["currency"], entry.options["area_code"])
+    hass.data[DOMAIN] = client
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
-
+    entry.async_on_unload(entry.add_update_listener(update_listener))
     return True
+
+
+async def update_listener(hass: HomeAssistant, entry: ConfigEntry) -> None:
+    """Handle options update."""
+    hass.data[DOMAIN] = ApiClient(entry.options["currency"], entry.options["area_code"])
 
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:

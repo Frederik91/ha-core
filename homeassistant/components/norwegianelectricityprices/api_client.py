@@ -1,5 +1,4 @@
 """Norwegian Electricity Prices API Client."""
-import datetime
 
 import httpx
 
@@ -15,7 +14,7 @@ class ApiClient:
             base_url="https://electricitypriceapi.azurewebsites.net"
         )
 
-    async def get_current_price_score(self):
+    async def async_get_current_price(self) -> float:
         """Get the current price."""
 
         request_url = (
@@ -29,12 +28,10 @@ class ApiClient:
         response = await self.client.get(request_url, timeout=5)
         json = response.json()
 
-        current_hour = datetime.datetime.now().hour
-        current_price = json["HourPrices"].items()[current_hour].value()
-
+        current_price = json["PriceNow"]
         return current_price
 
-    async def get_current_score(self):
+    async def async_get_current_score(self) -> int:
         """Get the current price score."""
 
         request_url = (
@@ -48,7 +45,5 @@ class ApiClient:
         response = await self.client.get(request_url, timeout=5)
         json = response.json()
 
-        current_hour = datetime.datetime.now().hour
-        current_score = json["HourScores"].items()[current_hour].value()
-
+        current_score = json["ScoreNow"]
         return current_score

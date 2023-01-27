@@ -65,6 +65,30 @@ class OptionsFlowHandler(OptionsFlow):
         """Initialize Norwegian Electricity Prices options flow."""
         self.config_entry = config_entry
 
+    async def async_step_init(
+        self, user_input: dict[str, Any] | None = None
+    ) -> FlowResult:
+        """Manage the options."""
+        if user_input is not None:
+            return self.async_create_entry(title=TITLE, data=user_input)
+
+        schema = vol.Schema(
+            {
+                vol.Required(
+                    "currency",
+                    description="Enter the currency you want to use.",
+                    default=self.config_entry.options.get("currency"),
+                ): vol.In(CURRENCY_CODES),
+                vol.Required(
+                    "area_code",
+                    description="Select the area code for your location.",
+                    default=self.config_entry.options.get("area_code"),
+                ): vol.In(AREA_CODES),
+            }
+        )
+
+        return self.async_show_form(step_id="init", data_schema=schema)
+
     async def async_step_user(self, user_input=None) -> FlowResult:
         """Handle a flow initialized by the user."""
         if user_input is not None:

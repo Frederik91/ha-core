@@ -19,7 +19,11 @@ def setup_platform(
 ) -> None:
     """Set up the sensor platform."""
     api_client = hass.data[DOMAIN]
-    add_entities([CurrentPriceScoreSensor(api_client)])
+    entities = [
+        CurrentScoreSensor(api_client),
+        CurrentPriceSensor(api_client),
+    ]
+    add_entities(entities)
 
 
 async def async_setup_entry(
@@ -29,27 +33,49 @@ async def async_setup_entry(
 ) -> None:
     """Set up entry."""
     api_client = hass.data[DOMAIN]
-    async_add_devices([CurrentPriceScoreSensor(api_client)])
+    entities = [
+        CurrentScoreSensor(api_client),
+        CurrentPriceSensor(api_client),
+    ]
+
+    async_add_devices(entities)
 
 
-class CurrentPriceScoreSensor(SensorEntity):
+class CurrentScoreSensor(SensorEntity):
     """Representation of a Sensor."""
 
-    _attr_name = "Current price score"
+    _attr_name = "Current score"
+
     _attr_state_class = SensorStateClass.MEASUREMENT
-    _current_price_score = 0
 
     def __init__(self, api_client: ApiClient) -> None:
         """Initialize the sensor."""
         self.client = api_client
 
-    def update(self) -> None:
+    async def async_update(self) -> None:
         """Fetch new state data for the sensor."""
 
-        score = self.client.get_current_price_score()
-        self._current_price_score = score
+        self._attr_native_value = await self.client.async_get_current_score()
+
+
+class CurrentPriceSensor(SensorEntity):
+    """Representation of a Sensor."""
+
+    _client: ApiClient
+    _attr_has_entity_name = True
+    _attr_state_class = SensorStateClass.MEASUREMENT
 
     @property
-    def current_price_pcore(self):
-        """Return the current price score."""
-        return self._current_price_score
+    def name(self) -> str:
+        """Name of the entity."""
+        return "Current price"
+
+    def __init__(self, api_client: ApiClient) -> None:
+        """Initialize the sensor."""
+        self._client = api_client
+
+    async def async_update(self) -> None:
+        """Fetch new state data for the sensor."""
+
+        val = await self._client.async_get_current_price()
+        self._attr_native_value = val

@@ -797,6 +797,8 @@ build.json @home-assistant/supervisor
 /homeassistant/components/noaa_tides/ @jdelaney72
 /homeassistant/components/nobo_hub/ @echoromeo @oyvindwe
 /tests/components/nobo_hub/ @echoromeo @oyvindwe
+/homeassistant/components/norwegianelectricityprices/ @Frederik91
+/tests/components/norwegianelectricityprices/ @Frederik91
 /homeassistant/components/notify/ @home-assistant/core
 /tests/components/notify/ @home-assistant/core
 /homeassistant/components/notify_events/ @matrozov @papajojo

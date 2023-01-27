@@ -3685,6 +3685,12 @@
       "config_flow": false,
       "iot_class": "cloud_polling"
     },
+    "norwegianelectricityprices": {
+      "name": "Norwegian Electricity Prices",
+      "integration_type": "device",
+      "config_flow": true,
+      "iot_class": "cloud_polling"
+    },
     "notify_events": {
       "name": "Notify.Events",
       "integration_type": "hub",

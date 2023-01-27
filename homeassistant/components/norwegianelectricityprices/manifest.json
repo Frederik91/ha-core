@@ -1,0 +1,14 @@
+{
+  "domain": "norwegianelectricityprices",
+  "name": "Norwegian Electricity Prices",
+  "config_flow": true,
+  "integration_type": "device",
+  "documentation": "https://www.home-assistant.io/integrations/norwegianelectricityprices",
+  "requirements": [],
+  "ssdp": [],
+  "zeroconf": [],
+  "homekit": {},
+  "dependencies": [],
+  "codeowners": ["@Frederik91"],
+  "iot_class": "cloud_polling"
+}

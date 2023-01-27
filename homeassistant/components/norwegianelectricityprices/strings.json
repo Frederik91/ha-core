@@ -1,0 +1,21 @@
+{
+  "config": {
+    "flow_title": "Set up Norwegian Electricity Prices",
+    "abort": {
+      "already_configured": "You have already configured Norwegian Electricity Prices for this area."
+    },
+    "step": {
+      "user": {
+        "title": "Select your currency and area code",
+        "data": {
+          "currency": "Currency",
+          "area_code": "Area code"
+        },
+        "data_description": {
+          "currency": "The currency you want to use for your pricing",
+          "area_code": "The area you want to use for your pricing"
+        }
+      }
+    }
+  }
+}

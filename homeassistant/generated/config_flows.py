@@ -285,6 +285,7 @@ FLOWS = {
         "nina",
         "nmap_tracker",
         "nobo_hub",
+        "norwegianelectricityprices",
         "notion",
         "nuheat",
         "nuki",
